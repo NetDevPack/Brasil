@@ -19,17 +19,17 @@ namespace NetDevPack.Brasil.Documentos
 
         public string ComMascara()
         {
-            if (Numero == "")
-                return "";
+            if (string.IsNullOrEmpty(Numero))
+            {
+                return string.Empty;
+            }
 
             const string pattern = @"{0:000\.000\.000\-00}";
             return string.Format(pattern, Convert.ToUInt64(Numero));
         }
 
+        private bool EstaValido() => new CpfValidador(Numero).EstaValido();
         public string SemMascara() => Numero;
-
-        public bool EstaValido() => new CpfValidador(Numero).EstaValido();
-
         public bool Equals(Cpf cpf) => Numero == cpf.SemMascara();
     }
 }

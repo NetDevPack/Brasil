@@ -19,8 +19,10 @@ namespace NetDevPack.Brasil.Documentos
 
         public string ComMascara()
         {
-            if (Numero == "")
-                return "";
+            if (string.IsNullOrEmpty(Numero))
+            {
+                return string.Empty;
+            }
 
             const string pattern = @"{0:00\.000\.000\/0000\-00}";
             return string.Format(pattern, Convert.ToUInt64(Numero));
