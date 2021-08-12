@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NetDevPack.Brasil.Documentos.Validacao;
 using NetDevPack.Domain;
 using NetDevPack.Utilities;
-using NetDevPack.Brasil.Documentos.Validacao;
+using System;
 
 namespace NetDevPack.Brasil.Documentos
 {
@@ -12,7 +12,7 @@ namespace NetDevPack.Brasil.Documentos
         public Cpf(string numero)
         {
             Numero = numero.OnlyNumbers(numero);
-            if (!EstaValido()) throw new DomainException("CPF Inválido");
+            if (!EstaValido()) throw new DomainException("CPF Invalido");
         }
 
         public override string ToString() => SemMascara();
