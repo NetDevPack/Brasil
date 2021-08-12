@@ -76,7 +76,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         public void AddDigito(string digito) => _numero = string.Concat(_numero, digito);
 
-        public string CalculaDigito() => !(_numero.Length > 0) ? string.Empty : ObterSomaDosDigitos();
+        public string CalculaDigito() => _numero.Length > 0 ? ObterSomaDosDigitos() : string.Empty ;
 
         private string ObterSomaDosDigitos()
         {

@@ -20,7 +20,9 @@ namespace NetDevPack.Brasil.Documentos
         public string ComMascara()
         {
             if (string.IsNullOrEmpty(Numero))
+            {
                 return string.Empty;
+            }
 
             const string pattern = @"{0:000\.000\.000\-00}";
             return string.Format(pattern, Convert.ToUInt64(Numero));

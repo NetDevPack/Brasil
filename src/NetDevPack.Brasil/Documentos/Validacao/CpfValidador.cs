@@ -7,7 +7,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
     {
         private const int TamanhoCpf = 11;
         private readonly string _cpfTratado;
-        private static readonly HashSet<string> _cpfsInvalidos = new HashSet<string>()
+        private static readonly HashSet<string> _cpfsInvalidos = new HashSet<string>
         {
             "00000000000",
             "11111111111",
