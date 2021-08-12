@@ -10,7 +10,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
         private bool _complementarDoModulo = true;
         private readonly List<int> _multiplicadores = new List<int> { 2, 3, 4, 5, 6, 7, 8, 9 };
         private readonly IDictionary<int, string> _substituicoes = new Dictionary<int, string>();
-        
+
         public DigitoVerificador(string numero)
         {
             _numero = numero;
@@ -76,7 +76,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         public void AddDigito(string digito) => _numero = string.Concat(_numero, digito);
 
-        public string CalculaDigito() => !(_numero.Length > 0) ? "" : ObterSomaDosDigitos();
+        public string CalculaDigito() => !(_numero.Length > 0) ? string.Empty : ObterSomaDosDigitos();
 
         private string ObterSomaDosDigitos()
         {
@@ -96,7 +96,5 @@ namespace NetDevPack.Brasil.Documentos.Validacao
         }
 
         private static int SomaAlgarismos(int produto) => (produto / 10) + (produto % 10);
-
-        private int ProximoMultiplicador(int multiplicadorAtual) => multiplicadorAtual;
     }
 }
