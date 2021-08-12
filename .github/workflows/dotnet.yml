@@ -1,0 +1,70 @@
+name: FORUM - Master
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [closed]
+    branches: [ master ]
+
+env:
+  REPOSITORY_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+  CURRENT_REPO_URL: https://github.com/${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # services:
+    #   mongodb: 
+    #     image: healthcheck/mongo
+    #     options: >-
+    #       --health-cmd mongo
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+    #     ports:
+    #     - 27017/tcp
+  
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+          source-url: ${{env.REPOSITORY_URL}}
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.PAT }}
+
+      - name: Restore dependencies
+        run: dotnet restore 
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      # - name: Test
+      #   run: dotnet test
+      #   env:
+      #     CUSTOMCONNSTR_MongoDB: "mongodb://localhost:27017/?socketTimeoutMS=1000&connectTimeoutMS=1000"
+
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 17.4.4
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/github
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Package
+        run: dotnet pack -c Release -o out -p:PackageVersion=${{ steps.semantic.outputs.new_release_version }} -p:RepositoryUrl=${{env.CURRENT_REPO_URL}}
+
+      - name: Push generated package to GitHub registry
+        run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true
