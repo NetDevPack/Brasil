@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/NetDevPack/Brasil/compare/v1.1.0...v1.1.1) (2021-08-12)
+
+
+### Bug Fixes
+
+* **ci:** dotnet pack error ([2f5221d](https://github.com/NetDevPack/Brasil/commit/2f5221d53e20159c938592380fb51a2a06183fe4))
+
 # [1.1.0](https://github.com/NetDevPack/Brasil/compare/v1.0.4...v1.1.0) (2021-08-12)
 
 
