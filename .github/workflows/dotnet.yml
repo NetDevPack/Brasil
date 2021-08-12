@@ -1,4 +1,4 @@
-name: FORUM - Master
+name: MASTER - NetDevPack Brasil 
 on:
   push:
     branches: [ master ]
@@ -13,17 +13,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # services:
-    #   mongodb: 
-    #     image: healthcheck/mongo
-    #     options: >-
-    #       --health-cmd mongo
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
-    #     ports:
-    #     - 27017/tcp
-  
+   
     defaults:
       run:
         working-directory: ./src
@@ -36,9 +26,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.x
-          source-url: ${{env.REPOSITORY_URL}}
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.PAT }}
 
       - name: Restore dependencies
         run: dotnet restore 
@@ -46,10 +33,8 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      # - name: Test
-      #   run: dotnet test
-      #   env:
-      #     CUSTOMCONNSTR_MongoDB: "mongodb://localhost:27017/?socketTimeoutMS=1000&connectTimeoutMS=1000"
+      - name: Test
+        run: dotnet test
 
       - name: Semantic Release
         id: semantic
@@ -66,5 +51,5 @@ jobs:
       - name: Generate Package
         run: dotnet pack -c Release -o out -p:PackageVersion=${{ steps.semantic.outputs.new_release_version }} -p:RepositoryUrl=${{env.CURRENT_REPO_URL}}
 
-      - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true
+      - name: Publish the package to nuget.org
+        run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true -k ${{ secrets.NUGET_AUTH_TOKEN}} -s https://api.nuget.org/v3/index.json
