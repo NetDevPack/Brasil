@@ -27,7 +27,7 @@ namespace NetDevPack.Brasil.Tests
             Action act = () => new Cnpj(value);
 
             // Assert
-            act.Should().ThrowExactly<DomainException>().WithMessage("CNPJ Inválido");
+            act.Should().ThrowExactly<DomainException>().WithMessage("CNPJ Invalido");
         }
 
         [Fact(DisplayName = "Cnpj ReturnTrue")]
@@ -38,7 +38,7 @@ namespace NetDevPack.Brasil.Tests
             var cnpj = new Cnpj("30.221.805/0001-26");
 
             // Act
-            var result  = new CnpjValidador(cnpj.Numero).EstaValido();
+            var result = new CnpjValidador(cnpj.Numero).EstaValido();
 
             // Assert
             result.Should().BeTrue();

@@ -27,7 +27,7 @@ namespace NetDevPack.Brasil.Tests
             Action act = () => new Cpf(value);
 
             // Assert
-            act.Should().ThrowExactly<DomainException>().WithMessage("CPF Inválido");
+            act.Should().ThrowExactly<DomainException>().WithMessage("CPF Invalido");
         }
 
         [Fact(DisplayName = "Cpf ReturnTrue")]
@@ -38,7 +38,7 @@ namespace NetDevPack.Brasil.Tests
             var cpf = new Cpf("915.212.540-87");
 
             // Act
-            var result  = new CpfValidador(cpf.Numero).EstaValido();
+            var result = new CpfValidador(cpf.Numero).EstaValido();
 
             // Assert
             result.Should().BeTrue();
