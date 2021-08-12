@@ -1,4 +1,4 @@
-name: MASTER - NetDevPack Brasil 
+name: NetDevPack Brasil - MASTER Deploy
 on:
   push:
     branches: [ master ]
