@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Eduardo Pires</Authors>
     <Company>desenvolvedor.io</Company>
@@ -19,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetDevPack" Version="1.0.4" />
+    <PackageReference Include="NetDevPack" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
