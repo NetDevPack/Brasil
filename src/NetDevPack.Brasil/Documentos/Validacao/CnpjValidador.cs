@@ -7,6 +7,19 @@ namespace NetDevPack.Brasil.Documentos.Validacao
     {
         private const int TamanhoCnpj = 14;
         private readonly string _cpnjTratado;
+        private static readonly HashSet<string> _cnpjInvalidos = new HashSet<string>
+        {
+            "00000000000000",
+            "11111111111111",
+            "22222222222222",
+            "33333333333333",
+            "44444444444444",
+            "55555555555555",
+            "66666666666666",
+            "77777777777777",
+            "88888888888888",
+            "99999999999999"
+        };
 
         public CnpjValidador(string cnpj) => _cpnjTratado = cnpj.OnlyNumbers(cnpj);
 
@@ -19,24 +32,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         private bool PossuiTamanhoValido() => _cpnjTratado.Length == TamanhoCnpj;
 
-        private bool PossuiDigitosRepetidos()
-        {
-            var cnpjInvalidos = new List<string>
-            {
-                "00000000000000",
-                "11111111111111",
-                "22222222222222",
-                "33333333333333",
-                "44444444444444",
-                "55555555555555",
-                "66666666666666",
-                "77777777777777",
-                "88888888888888",
-                "99999999999999"
-            };
-
-            return cnpjInvalidos.Contains(_cpnjTratado);
-        }
+        private bool PossuiDigitosRepetidos() => _cnpjInvalidos.Contains(_cpnjTratado);
 
         private bool PossuiDigitoVerificadorValido()
         {
