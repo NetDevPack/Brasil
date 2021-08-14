@@ -11,7 +11,7 @@ namespace NetDevPack.Brasil.Documentos
 
         public Cnpj(string numero)
         {
-            Numero = numero.OnlyNumbers(numero);
+            Numero = numero.OnlyNumbers();
             if (!EstaValido()) throw new DomainException("CNPJ Invalido");
         }
 

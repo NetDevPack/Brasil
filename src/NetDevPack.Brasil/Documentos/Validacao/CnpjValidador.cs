@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NetDevPack.Utilities;
+﻿using NetDevPack.Utilities;
+using System.Collections.Generic;
 
 namespace NetDevPack.Brasil.Documentos.Validacao
 {
@@ -21,7 +21,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
             "99999999999999"
         };
 
-        public CnpjValidador(string cnpj) => _cpnjTratado = cnpj.OnlyNumbers(cnpj);
+        public CnpjValidador(string cnpj) => _cpnjTratado = cnpj.OnlyNumbers();
 
         public bool EstaValido()
         {

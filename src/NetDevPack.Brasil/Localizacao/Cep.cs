@@ -1,7 +1,6 @@
-﻿using System;
-using NetDevPack.Brasil.Localizacao.Validacao;
+﻿using NetDevPack.Brasil.Localizacao.Validacao;
 using NetDevPack.Domain;
-using NetDevPack.Utilities;
+using System;
 
 namespace NetDevPack.Brasil.Localizacao
 {
@@ -63,13 +62,10 @@ namespace NetDevPack.Brasil.Localizacao
         /// <exception cref="DomainException">CEP (Código de Endereçamento Postal) inválido.</exception>
         public Cep(string codigo)
         {
-            Codigo = codigo?.OnlyNumbers(codigo);
-            _validador = new CepValidador(Codigo);
-            if (!EstaValido())
-            {
-                throw new DomainException("CEP Inválido");
-            }
-            PreencherEstrutura();
+            Codigo = codigo;
+            _validador = new CepValidador(codigo);
+            if (EstaValido())
+                PreencherEstrutura();
         }
 
         /// <inheritdoc/>

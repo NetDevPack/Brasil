@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetDevPack" Version="5.0.3" />
+    <PackageReference Include="NetDevPack" Version="5.1.1" />
   </ItemGroup>
 
   <ItemGroup>

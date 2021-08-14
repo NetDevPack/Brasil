@@ -1,4 +1,5 @@
 ﻿using NetDevPack.Utilities;
+using System.Text.RegularExpressions;
 
 namespace NetDevPack.Brasil.Localizacao.Validacao
 {
@@ -16,11 +17,19 @@ namespace NetDevPack.Brasil.Localizacao.Validacao
         /// </summary>
         private readonly string _cepTratado;
 
+        private readonly string _cepOriginal;
+
+        private readonly Regex _formatoEsperado = new Regex(@"^(\d{5}-\d{3})|(\d{8})$", RegexOptions.Compiled);
+
         /// <summary>
         /// Inicializa uma instância da classe <see cref="CepValidador"/>.
         /// </summary>
         /// <param name="codigo">O CEP (Código de Endereçamento Postal).</param>
-        public CepValidador(string codigo) => _cepTratado = codigo.OnlyNumbers(codigo);
+        public CepValidador(string codigo)
+        {
+            _cepTratado = codigo.OnlyNumbers();
+            _cepOriginal = codigo;
+        }
 
         /// <summary>
         /// Verifica se o CEP atende o critério de tamanho definido.
@@ -28,7 +37,7 @@ namespace NetDevPack.Brasil.Localizacao.Validacao
         /// <returns><see cref="true"/> se o CEP atende o critério de tamanho definido; caso contrário, <see cref="false"/>.</returns>
         public bool EstaValido()
         {
-            return PossuiTamanhoValido();
+            return PossuiTamanhoValido() && _formatoEsperado.IsMatch(_cepOriginal);
         }
 
         /// <summary>
