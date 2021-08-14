@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/NetDevPack/Brasil/compare/v1.1.1...v1.1.2) (2021-08-14)
+
+
+### Bug Fixes
+
+* **cep:** formato esperado ([127149c](https://github.com/NetDevPack/Brasil/commit/127149c3430e5605324bc6132870e400ea4043e2))
+
 ## [1.1.1](https://github.com/NetDevPack/Brasil/compare/v1.1.0...v1.1.1) (2021-08-12)
 
 
