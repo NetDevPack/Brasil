@@ -1,11 +1,11 @@
+using System;
 using FluentAssertions;
 using NetDevPack.Brasil.Documentos;
 using NetDevPack.Brasil.Documentos.Validacao;
 using NetDevPack.Domain;
-using System;
 using Xunit;
 
-namespace NetDevPack.Brasil.Tests
+namespace NetDevPack.Brasil.Tests.Documentos
 {
     public class CnpjValidadorTest
     {
