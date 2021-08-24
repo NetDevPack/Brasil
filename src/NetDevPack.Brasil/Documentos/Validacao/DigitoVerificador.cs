@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NetDevPack.Brasil.Documentos.Validacao
 {
@@ -6,6 +7,9 @@ namespace NetDevPack.Brasil.Documentos.Validacao
     {
         private string _numero;
         private int _modulo = 11;
+        private int _valorLimite = 0;
+        private int _valorSubstituto = 0;
+        private bool _limite = false;
         private bool _somarAlgarismos;
         private bool _complementarDoModulo = true;
         private readonly List<int> _multiplicadores = new List<int> { 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -74,6 +78,28 @@ namespace NetDevPack.Brasil.Documentos.Validacao
             return this;
         }
 
+        public DigitoVerificador InvertendoNumero()
+        {
+            _numero = new string(_numero.Reverse().ToArray());
+            return this;
+        }
+
+        public DigitoVerificador HabilitaLimiteModulo(int valorLimite, int valorSubstituto = 0)
+        {
+            _valorLimite = valorLimite;
+            _valorSubstituto = valorSubstituto;
+            _limite = true;
+            return this;
+        }
+
+        public DigitoVerificador DesabilitaLimiteModulo()
+        {
+            _limite = false;
+            _valorLimite = 0;
+            _valorSubstituto = 0;
+            return this;
+        }
+
         public void AddDigito(string digito) => _numero = string.Concat(_numero, digito);
 
         public string CalculaDigito() => _numero.Length > 0 ? ObterSomaDosDigitos() : string.Empty ;
@@ -91,6 +117,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
             var mod = (soma % _modulo);
             var resultado = _complementarDoModulo ? _modulo - mod : mod;
+            resultado = _limite && mod >= _valorLimite ? _valorSubstituto : resultado;
 
             return _substituicoes.ContainsKey(resultado) ? _substituicoes[resultado] : resultado.ToString();
         }
