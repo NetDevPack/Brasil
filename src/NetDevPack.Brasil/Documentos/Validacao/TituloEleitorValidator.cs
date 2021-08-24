@@ -36,25 +36,40 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         private bool PossuiDigitosValidos()
         {
+            var primeiroDigito = ObtemPrimeiroDigito();
+            var segundoDigito = ObtemSegundoDigito(primeiroDigito);
+
+            return DigitosCalculadosSaoIguaisAosDigitosInformados(primeiroDigito, segundoDigito);
+        }
+
+        private string ObtemPrimeiroDigito()
+        {
             var primeiraParte = _tituloEleitorTratado.Substring(0, TamanhoTituloEleitor - 4);
 
-            var primeiroDigito = new DigitoVerificador(primeiraParte)
-                                        .Modulo(11)
-                                        .SemComplementarDoModulo()
-                                        .InvertendoNumero()
-                                        .HabilitaLimiteModulo(10)
-                                        .CalculaDigito();
+            return new DigitoVerificador(primeiraParte)
+                .Modulo(11)
+                .SemComplementarDoModulo()
+                .InvertendoNumero()
+                .HabilitaLimiteModulo(10)
+                .CalculaDigito();
+        }
 
+        private string ObtemSegundoDigito(string primeiroDigito)
+        {
             var segundaParte = string.Concat(_tituloEleitorTratado.Substring(8, 2), primeiroDigito);
 
-            var segundoDigito = new DigitoVerificador(segundaParte)
-                                         .Modulo(11)
-                                         .SemComplementarDoModulo()
-                                         .InvertendoNumero()
-                                         .HabilitaLimiteModulo(10)
-                                         .ComMultiplicadoresDeAte(7, 9)
-                                         .CalculaDigito();
+            return new DigitoVerificador(segundaParte)
+                .Modulo(11)
+                .SemComplementarDoModulo()
+                .InvertendoNumero()
+                .HabilitaLimiteModulo(10)
+                .ComMultiplicadoresDeAte(7, 9)
+                .CalculaDigito();
+        }
 
+
+        private bool DigitosCalculadosSaoIguaisAosDigitosInformados(string primeiroDigito, string segundoDigito)
+        {
             return string.Concat(primeiroDigito, segundoDigito) == _tituloEleitorTratado.Substring(TamanhoTituloEleitor - 2, 2);
         }
     }
