@@ -1,5 +1,6 @@
 ﻿using NetDevPack.Utilities;
 using NetDevPack.Brasil.Documentos.Validacao;
+using NetDevPack.Domain;
 
 namespace NetDevPack.Brasil.Documentos
 {
@@ -9,7 +10,8 @@ namespace NetDevPack.Brasil.Documentos
 
         public TituloEleitor(string numero)
         {
-            Numero = numero.OnlyNumbers(numero); ;
+            Numero = numero.OnlyNumbers();
+            if (!EstaValido()) throw new DomainException("TituloEleitor Invalido");
         }
 
         public bool EstaValido() => new TituloEleitorValidator(Numero).EstaValido();

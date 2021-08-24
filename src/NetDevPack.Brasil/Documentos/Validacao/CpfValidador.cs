@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using NetDevPack.Utilities;
+﻿using NetDevPack.Utilities;
+using System.Collections.Generic;
 
 namespace NetDevPack.Brasil.Documentos.Validacao
 {
@@ -7,8 +7,21 @@ namespace NetDevPack.Brasil.Documentos.Validacao
     {
         private const int TamanhoCpf = 11;
         private readonly string _cpfTratado;
+        private static readonly HashSet<string> _cpfsInvalidos = new HashSet<string>
+        {
+            "00000000000",
+            "11111111111",
+            "22222222222",
+            "33333333333",
+            "44444444444",
+            "55555555555",
+            "66666666666",
+            "77777777777",
+            "88888888888",
+            "99999999999"
+        };
 
-        public CpfValidador(string numero) => _cpfTratado = numero.OnlyNumbers(numero);
+        public CpfValidador(string numero) => _cpfTratado = numero.OnlyNumbers();
 
         public bool EstaValido()
         {
@@ -19,24 +32,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         private bool PossuiTamanhoValido() => _cpfTratado.Length == TamanhoCpf;
 
-        private bool PossuiDigitosRepetidos()
-        {
-            var cpfsInvalidos = new List<string>()
-            {
-                "00000000000",
-                "11111111111",
-                "22222222222",
-                "33333333333",
-                "44444444444",
-                "55555555555",
-                "66666666666",
-                "77777777777",
-                "88888888888",
-                "99999999999"
-            };
-
-            return cpfsInvalidos.Contains(_cpfTratado);
-        }
+        private bool PossuiDigitosRepetidos() => _cpfsInvalidos.Contains(_cpfTratado);
 
         private bool PossuiDigitosValidos()
         {

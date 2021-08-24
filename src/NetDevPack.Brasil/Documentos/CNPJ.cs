@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NetDevPack.Brasil.Documentos.Validacao;
 using NetDevPack.Domain;
 using NetDevPack.Utilities;
-using NetDevPack.Brasil.Documentos.Validacao;
+using System;
 
 namespace NetDevPack.Brasil.Documentos
 {
@@ -11,16 +11,18 @@ namespace NetDevPack.Brasil.Documentos
 
         public Cnpj(string numero)
         {
-            Numero = numero.OnlyNumbers(numero);
-            if (!EstaValido()) throw new DomainException("CNPJ Inválido");
+            Numero = numero.OnlyNumbers();
+            if (!EstaValido()) throw new DomainException("CNPJ Invalido");
         }
 
         public override string ToString() => SemMascara();
 
         public string ComMascara()
         {
-            if (Numero == "")
-                return "";
+            if (string.IsNullOrEmpty(Numero))
+            {
+                return string.Empty;
+            }
 
             const string pattern = @"{0:00\.000\.000\/0000\-00}";
             return string.Format(pattern, Convert.ToUInt64(Numero));

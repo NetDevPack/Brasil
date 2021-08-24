@@ -93,7 +93,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
         }
 
         public DigitoVerificador DesabilitaLimiteModulo()
-        {           
+        {
             _limite = false;
             _valorLimite = 0;
             _valorSubstituto = 0;
@@ -102,7 +102,7 @@ namespace NetDevPack.Brasil.Documentos.Validacao
 
         public void AddDigito(string digito) => _numero = string.Concat(_numero, digito);
 
-        public string CalculaDigito() => !(_numero.Length > 0) ? "" : ObterSomaDosDigitos();
+        public string CalculaDigito() => _numero.Length > 0 ? ObterSomaDosDigitos() : string.Empty ;
 
         private string ObterSomaDosDigitos()
         {
@@ -123,7 +123,5 @@ namespace NetDevPack.Brasil.Documentos.Validacao
         }
 
         private static int SomaAlgarismos(int produto) => (produto / 10) + (produto % 10);
-
-        private int ProximoMultiplicador(int multiplicadorAtual) => multiplicadorAtual;
     }
 }
