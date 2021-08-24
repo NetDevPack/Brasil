@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/NetDevPack/Brasil/compare/v1.1.2...v1.2.0) (2021-08-24)
+
+
+### Bug Fixes
+
+* **ci:** testing ([10926a1](https://github.com/NetDevPack/Brasil/commit/10926a1cff46733b4a45955c812b6157b22842ee))
+* **ci:** testing ([4777001](https://github.com/NetDevPack/Brasil/commit/4777001d89babfd0a136ee93afc26e7948279bac))
+
+
+### Features
+
+* **documento:** Titulo eleitor validation ([edca543](https://github.com/NetDevPack/Brasil/commit/edca5439c952eac908797c17144378dd59872c27))
+
 ## [1.1.2](https://github.com/NetDevPack/Brasil/compare/v1.1.1...v1.1.2) (2021-08-14)
 
 
