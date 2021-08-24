@@ -2,9 +2,6 @@ name: NetDevPack Brasil - MASTER Deploy
 on:
   push:
     branches: [ master ]
-  pull_request:
-    types: [closed]
-    branches: [ master ]
 
 env:
   REPOSITORY_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
