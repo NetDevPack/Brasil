@@ -1,3 +1,23 @@
+# [2.0.0](https://github.com/NetDevPack/Brasil/compare/v1.2.0...v2.0.0) (2026-02-05)
+
+
+### Bug Fixes
+
+* **ci:** only on push [skip ci] ([3a069e6](https://github.com/NetDevPack/Brasil/commit/3a069e6b8dc3e5246d9e815ad326f752612193c9))
+* github actions ([cad418a](https://github.com/NetDevPack/Brasil/commit/cad418abd67359210bb0adb159c34f64397145eb))
+
+
+### Features
+
+* net 7 ([994e5eb](https://github.com/NetDevPack/Brasil/commit/994e5ebfa263a505f9a15a4519ac98ff55e1a563))
+* update to latest .NET version ([adef077](https://github.com/NetDevPack/Brasil/commit/adef077aa7e5bede46c5f1de731301e5c6fb461c))
+
+
+### BREAKING CHANGES
+
+* Latest version of .NET 10
+* dropped support for net 5
+
 # [1.2.0](https://github.com/NetDevPack/Brasil/compare/v1.1.2...v1.2.0) (2021-08-24)
 
 
