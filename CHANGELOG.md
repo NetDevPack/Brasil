@@ -1,3 +1,18 @@
+## [3.0.0](https://github.com/NetDevPack/Brasil/compare/v2.0.0...v3.0.0) (2026-11-18)
+
+### ⚠ BREAKING CHANGES
+
+* only .NET 10 is supported. Stay on 2.x for
+.NET Standard 2.1, .NET 8 or .NET 9.
+
+### Features
+
+* target .NET 10 and update dependencies ([4d9285e](https://github.com/NetDevPack/Brasil/commit/4d9285ee74bbf3992b418a624d0a44d2b8f8d411))
+
+### Bug Fixes
+
+* normalize masked CEP like CPF and CNPJ ([ab4d0e5](https://github.com/NetDevPack/Brasil/commit/ab4d0e5cb948cffdea4d81c9f5ebc0a80f48cbc3))
+
 # [2.0.0](https://github.com/NetDevPack/Brasil/compare/v1.2.0...v2.0.0) (2026-02-05)
 
 
