@@ -1,5 +1,6 @@
 ﻿using NetDevPack.Brasil.Localizacao.Validacao;
 using NetDevPack.Domain;
+using NetDevPack.Utilities;
 using System;
 
 namespace NetDevPack.Brasil.Localizacao
@@ -62,8 +63,9 @@ namespace NetDevPack.Brasil.Localizacao
         /// <exception cref="DomainException">CEP (Código de Endereçamento Postal) inválido.</exception>
         public Cep(string codigo)
         {
-            Codigo = codigo;
             _validador = new CepValidador(codigo);
+            // Same as Cpf/Cnpj: keep only the digits, so the mask doesn't leak into SemMascara/ComMascara/Equals
+            Codigo = EstaValido() ? codigo.OnlyNumbers() : codigo;
             if (EstaValido())
                 PreencherEstrutura();
         }
