@@ -1,0 +1,17 @@
+﻿<Project>
+  <!--
+    Central Package Management: every version lives here, csproj files only declare <PackageReference Include="..." />.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="NetDevPack" Version="9.0.0" />
+
+    <!-- Tests -->
+    <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.3" />
+  </ItemGroup>
+</Project>

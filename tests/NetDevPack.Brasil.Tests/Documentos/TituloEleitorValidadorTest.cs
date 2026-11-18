@@ -1,5 +1,5 @@
-using System;
-using FluentAssertions;
+﻿using System;
+using AwesomeAssertions;
 using NetDevPack.Brasil.Documentos;
 using NetDevPack.Brasil.Documentos.Validacao;
 using NetDevPack.Domain;

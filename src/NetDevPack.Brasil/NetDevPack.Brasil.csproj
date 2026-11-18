@@ -1,24 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Authors>Eduardo Pires</Authors>
+    <Authors>EduardoPires</Authors>
     <Company>desenvolvedor.io</Company>
     <Description>.NET DevPack BR é uma coleção de utilidades como classes de documentos nacionais (CPF, CNPJ) com validação e classes de utilidade em geral. Desenvolvido para ser utilizado junto com o NetDevPack</Description>
     <PackageDescription>.NET DevPack BR é uma coleção de utilidades como classes de documentos nacionais (CPF, CNPJ) com validação e classes de utilidade em geral. Desenvolvido para ser utilizado junto com o NetDevPack</PackageDescription>
-    <PackageProjectUrl>https://github.com/EduardoPires/NetDevPack</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/NetDevPack/Brasil</PackageProjectUrl>
     <PackageId>NetDevPack.Brasil</PackageId>
     <PackageIcon>IconBR.png</PackageIcon>
-    <RepositoryUrl>https://github.com/EduardoPires/NetDevPack</RepositoryUrl>
-    <Authors>EduardoPires</Authors>
-    <RepositoryType>Public</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>NetDevPack;Brasil;CPF;CNPJ;CEP;TituloEleitor;validacao</PackageTags>
+    <RepositoryUrl>https://github.com/NetDevPack/Brasil</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetDevPack" Version="8.0.2" />
+    <PackageReference Include="NetDevPack" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,13 +26,17 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
-  <Target Name="CopyHook" AfterTargets="AfterBuild" Condition="'$(Configuration)' == 'Debug'">
+  <Target Name="CopyHook" AfterTargets="AfterBuild" Condition=" '$(Configuration)' == 'Debug' And '$(CI)' != 'true' ">
     <ItemGroup>
       <_CustomFiles Include="../../.github/hooks/commit-msg" />
     </ItemGroup>
-    <Copy SourceFiles="@(_CustomFiles)" DestinationFolder="../../../.git/hooks" />
+    <Copy SourceFiles="@(_CustomFiles)" DestinationFolder="$(MSBuildThisFileDirectory)../../.git/hooks" Condition="Exists('$(MSBuildThisFileDirectory)../../.git')" />
   </Target>
 
 </Project>
