@@ -1,15 +1,15 @@
 name: NetDevPack Brasil - MASTER Deploy
+
 on:
   push:
     branches: [ master ]
   workflow_dispatch:
     inputs:
       version:
-        description: Existing release to publish again (e.g. 2.0.0). Builds tag v<version> and pushes it to nuget.org.
+        description: Existing release to publish again (e.g. 3.0.0). Builds tag v<version> and pushes it to nuget.org.
         required: true
 
 env:
-  REPOSITORY_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   CURRENT_REPO_URL: https://github.com/${{ github.repository }}
 
 permissions:
@@ -23,66 +23,59 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.version && format('v{0}', inputs.version) || github.sha }}
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.version && format('v{0}', inputs.version) || github.sha }}
 
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
 
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Setup .NET 10
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build --no-restore -c Release
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Test
+        run: dotnet test --no-build -c Release
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Semantic Release
+        id: semantic
+        if: github.event_name == 'push'
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 24
+          extra_plugins: |
+            @semantic-release/changelog@6
+            @semantic-release/git@10
+            conventional-changelog-conventionalcommits@8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Test
-      run: dotnet test
+      - name: Resolve version
+        id: version
+        if: github.event_name == 'workflow_dispatch' || steps.semantic.outputs.new_release_published == 'true'
+        env:
+          VERSION: ${{ inputs.version || steps.semantic.outputs.new_release_version }}
+        run: |
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo "::error::Invalid version '$VERSION'"; exit 1; }
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
 
-    - name: Semantic Release
-      id: semantic
-      if: github.event_name == 'push'
-      uses: cycjimmy/semantic-release-action@v4
-      with:
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate Package
+        if: steps.version.outputs.value != ''
+        run: dotnet pack src/NetDevPack.Brasil/NetDevPack.Brasil.csproj -c Release -o out -p:PackageVersion=${{ steps.version.outputs.value }} -p:RepositoryUrl=${{ env.CURRENT_REPO_URL }}
 
-    - name: Resolve version
-      id: version
-      if: github.event_name == 'workflow_dispatch' || steps.semantic.outputs.new_release_published == 'true'
-      env:
-        VERSION: ${{ inputs.version || steps.semantic.outputs.new_release_version }}
-      run: |
-        [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo "::error::Invalid version '$VERSION'"; exit 1; }
-        echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+      - name: NuGet login (trusted publishing)
+        id: nuget
+        if: steps.version.outputs.value != ''
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
 
-    - name: Generate Package
-      if: steps.version.outputs.value != ''
-      run: dotnet pack -c Release -o out -p:PackageVersion=${{ steps.version.outputs.value }} -p:RepositoryUrl=${{env.CURRENT_REPO_URL}}
-
-    - name: NuGet login (trusted publishing)
-      id: nuget
-      if: steps.version.outputs.value != ''
-      uses: NuGet/login@v1
-      with:
-        user: ${{ vars.NUGET_USER }}
-
-    - name: Publish the package to nuget.org
-      if: steps.version.outputs.value != ''
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate -n -d -k ${{ steps.nuget.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      - name: Publish the package to nuget.org
+        if: steps.version.outputs.value != ''
+        run: dotnet nuget push ./out/*.nupkg --skip-duplicate -k ${{ steps.nuget.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
